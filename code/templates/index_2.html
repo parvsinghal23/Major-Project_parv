@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email and Username Form</title>
+    <style>
+        body {
+            background-image: url("https://i.gifer.com/ENjk.gif");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: move 2s infinite linear;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        form {
+            text-align: center;
+            padding: 40px;
+            border-radius: 20px;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        input[type="submit"] {
+            width: calc(100% - 20px);
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 10px;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        label {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/save_user_data" method="post">
+        <label for="username">Choose a Username:</label><br>
+        <input type="text" id="username" name="username"  value="{{ request.form['username'] }}" required><br>
+        <label for="email">Enter your Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ request.form['email'] }}" required><br>
+        <input type="submit" value="Get Started">
+    </form>
+</body>
+</html>
