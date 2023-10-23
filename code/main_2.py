@@ -42,7 +42,7 @@ def check_product_availability(product_url, recipient_email):
                 break
             else:
                 print("Product is currently out of stock. Checking again in 2 seconds...")
-                time.sleep(1)  # Wait for 1 seconds before checking again
+                 # Wait for 1 seconds before checking again
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}")
             break
