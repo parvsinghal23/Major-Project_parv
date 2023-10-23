@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, session
 import sqlite3
 from database_setup import get_db,close_connection,init_db
 from main_2 import check_product_availability 
 import os
-
-
 
 app = Flask(__name__)
 
@@ -16,8 +14,6 @@ app.secret_key= secret_key
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
 
 @app.route('/admin_login', methods=['POST'])
 def admin_login():
@@ -35,42 +31,37 @@ def admin_login():
         # Deny access
         flash('!!! Invalid Credentials, Please try again.!!!')
         return render_template('index.html')
-# @app.route('/admin_login',methods=['POST'])
-# def admin_login():
-#     db = get_db()
-#     cursor = db.execute('SELECT * FROM user_data')
-#     user_data = cursor.fetchall()
-#     return render_template('admin_login.html', user_data=user_data)
-
 
 
 @app.route('/save_user_data', methods=['POST'])
 def save_user_data():
+    # global global_email  # Declare the global variable
     username = request.form['username']
     email = request.form['email']
+    # Store email in session variable
+    session['email'] = email
+    # global_email = email  # Store the email in the global variable
     print("Connecting to database...")
     db = get_db()
-    db.execute('INSERT INTO user_data (username, email) VALUES (?, ?)', [username, email])
+    db.execute('INSERT INTO user_data (username, email) VALUES (?, ?)', [username,email])
     db.commit()
     print('User data saved successfully!')
     return render_template('enter_url.html')
-    # db.execute('INSERT INTO user_data (username, email) VALUES (?, ?)', [username, email])
-    # db.commit()
-    
-
-    # global user_data
-    # username = request.form['username']
-    # email = request.form['email']
-    # user_data.loc[len(user_data)] = [username, email]
-    # return render_template('enter_url.html')
-
 
 @app.route('/check_product_availability', methods=['POST'])
 def check_product_availability_route():
-    
+    # global global_email  # Access the global variable
     global user_data
+    # Get email from session variable
+    recipient_email = session.get('email', None)
+    if recipient_email is None:
+        flash('Email not found.')
+        return render_template('index.html')
+    
     product_url = request.form['url']
-    result = check_product_availability(product_url)
+    # recipient_email = global_email  # Use the email from the global variable
+    # recipient_email=request.form['email']
+    result = check_product_availability(product_url,recipient_email)
     print(result)
     flash(result)
     return render_template("thankyou.html")
