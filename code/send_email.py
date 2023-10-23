@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 def send_info(product_name, product_price, product_ratings, product_reviews, recipient_email):
     # Email configuration
     sender_email = 'notificationapp27@gmail.com'  # Your Gmail email address
-    sender_password = 'notifcatin@123' # Your Gmail password
+    sender_password = 'mghnybhkreszclso' # Your Gmail password
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
 
