@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url("https://media.giphy.com/media/j25Cqwp9iowXjKbj6y/giphy.gif");
+            background-image: url("https://img.freepik.com/premium-vector/background-with-colorful-shopping-bags-vector-illustration-sale-discount-concept_653240-59.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -17,20 +17,25 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            position: relative;
+            color: white; /* sample text color for contrast against the background */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* sample text shadow for added clarity */
         }
-        /* Add a keyframe animation for the motion effect */
+        
+        
+        /* Sample animation (assuming you want a simple slide-in animation for demonstration) */
         @keyframes move {
             0% {
-                background-position: 0% 0%;
+                background-position: center -50px;
             }
             50% {
-                background-position: 100% 0%;
+                background-position: center 50px;
             }
             100% {
-                background-position: 0% 0%;
+                background-position: center -50px;
             }
         }
+        
         h1 {
             color: #fff;
         }
