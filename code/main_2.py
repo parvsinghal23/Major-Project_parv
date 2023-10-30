@@ -39,7 +39,7 @@ def check_product_availability(product_url, recipient_email):
                 product_ratings = get_product_ratings(soup)
                 product_reviews = get_product_reviews(soup)
 
-                send_info(product_name, product_price, product_ratings, product_reviews, recipient_email)
+                send_info(product_name, product_price, product_ratings, product_reviews, recipient_email,product_url)
                 break
             else:
                 print("Product is currently out of stock. Checking again in 2 seconds...")
