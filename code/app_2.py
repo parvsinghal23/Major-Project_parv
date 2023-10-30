@@ -24,7 +24,7 @@ def admin_login():
     if admin_username == "admin" and admin_password == "admin@123":
         # Allow access
         db = get_db()
-        cursor = db.execute('SELECT DISTINCT email FROM user_data')
+        cursor = db.execute('SELECT * FROM user_data GROUP BY Email,username;')
         user_data = cursor.fetchall()
         return render_template('admin_login.html', user_data=user_data)
     else:
