@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, session
 import sqlite3
 from database_setup import get_db,close_connection,init_db
+from firewall_security import security_scan
 from main_2 import check_product_availability 
 import os
 
@@ -20,8 +21,13 @@ def admin_login():
     admin_username = request.form['admin_username']
     admin_password = request.form['admin_password']
     
+    # Check for security issues in the input data
+    if not security_scan(admin_username) or not security_scan(admin_password):
+        flash('Security issue detected in input data.')
+        return render_template('index.html')
+    
     # Check if the credentials match the expected values
-    if admin_username == "admin" and admin_password == "admin@123":
+    if admin_username == "parv" and admin_password == "parv123":
         # Allow access
         db = get_db()
         cursor = db.execute('SELECT * FROM user_data GROUP BY Email,username;')
@@ -38,6 +44,12 @@ def save_user_data():
     # global global_email  # Declare the global variable
     username = request.form['username']
     email = request.form['email']
+    
+    if not security_scan(username) or not security_scan(email):
+        print(f"Security scan detected potential issues. username: {username}, email: {email}")
+        flash('Security scan detected potential issues in your input.')
+        return render_template('index.html')
+    
     # Store email in session variable
     session['email'] = email
     # global_email = email  # Store the email in the global variable
@@ -50,6 +62,14 @@ def save_user_data():
 
 @app.route('/check_product_availability', methods=['POST'])
 def check_product_availability_route():
+    
+    product_url = request.form['url']
+    # # Check for security issues in product URL
+    if not security_scan(product_url):
+        print(f"Security scan detected potential issues. username: {username}, email: {email}")
+        flash('Security scan detected potential issues in your input.')
+        return render_template('index.html')
+    
     # global global_email  # Access the global variable
     global user_data
     # Get email from session variable
@@ -58,7 +78,7 @@ def check_product_availability_route():
         flash('Email not found.')
         return render_template('index.html')
     
-    product_url = request.form['url']
+    # product_url = request.form['url']
     # recipient_email = global_email  # Use the email from the global variable
     # recipient_email=request.form['email']
     result = check_product_availability(product_url,recipient_email)
@@ -79,43 +99,3 @@ if __name__ == '__main__':
    
     app.run(debug=True)
 
-
-
-# from flask import Flask, render_template, request,session
-# from database_setup import get_db, close_connection, init_db
-# from main_2 import check_product_availability 
-
-# app = Flask(__name__)
-
-# @app.route('/')
-# def index():
-   
-#     return render_template('index.html')
-    
-
-# @app.route('/save_user_data', methods=['POST'])
-# def save_user_data():
-#     # username = session['username']
-#     # email = session['email']
-#     username = request.form['username']
-#     email = request.form['email']
-#     if username and email:
-
-#         db = get_db()
-#         db.execute('INSERT INTO user_data (username, email) VALUES (?, ?)', (username, email))
-#         db.commit()
-#         return render_template('enter_url.html')
-#     else:
-#         flash('Username and email are required.')
-#         return render_template('enter_url.html')
-    
-
-# @app.route('/check_product_availability', methods=['POST'])
-# def check_product_availability_route():
-#     product_url = request.form['url']
-#     result = check_product_availability(product_url)
-#     print(result)
-#     return render_template("thankyou.html")
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
